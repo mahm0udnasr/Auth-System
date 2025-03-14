@@ -231,11 +231,6 @@ export const verifyResetOtp = async (req, res) => {
     user.resetOtp = "";
     user.resetOtpExpireAt = 0;
     await user.save();
-    res.clearCookie("token", {
-      httpOnly: true,
-      secure: process.env.DEV_MODE === "production",
-      sameSite: process.env.DEV_MODE === "production" ? "none" : "strict",
-    });
     return res
       .status(200)
       .json({ success: true, message: "Password has been reset successfully" });
