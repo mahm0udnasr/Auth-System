@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { assets } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
+import { AppContext } from "../context/AppContext";
+import axios from "axios";
+import { toast } from "react-toastify";
 export default function Login() {
+  const { apiUrl, setIsLogin, getUserData } = useContext(AppContext);
   const [mood, setMood] = useState("Sign Up");
   const [data, setData] = useState({
     fullName: "",
@@ -9,6 +13,40 @@ export default function Login() {
     password: "",
   });
   const navigate = useNavigate();
+  const onSubmitHandler = async (e) => {
+    try {
+      e.preventDefault();
+      axios.defaults.withCredentials = true;
+      if (mood === "Sign Up") {
+        const response = await axios.post(`${apiUrl}/api/auth/register`, {
+          name: data.fullName,
+          email: data.email,
+          password: data.password,
+        });
+        if (response.data.success) {
+          setIsLogin(true);
+          getUserData();
+          navigate("/");
+        } else {
+          toast.error(response.data.message);
+        }
+      } else {
+        const response = await axios.post(`${apiUrl}/api/auth/login`, {
+          email: data.email,
+          password: data.password,
+        });
+        if (response.data.success) {
+          setIsLogin(true);
+          getUserData();
+          navigate("/");
+        } else {
+          toast.error(response.data.message);
+        }
+      }
+    } catch (error) {
+      toast.error(error.message || error);
+    }
+  };
   return (
     <div className="flex items-center justify-center min-h-screen px-6  sm:px-0 bg-gradient-to-br from-blue-200 to-purple-400">
       <img
@@ -24,7 +62,7 @@ export default function Login() {
         <p className="text-center text-sm mb-6">
           {mood === "Sign Up" ? "Create your account" : "Login to your account"}
         </p>
-        <form>
+        <form onSubmit={onSubmitHandler}>
           {mood === "Sign Up" && (
             <div className="mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full bg-[#333A5C]">
               <img src={assets.person_icon} alt="person icon" />

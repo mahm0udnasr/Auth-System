@@ -7,13 +7,14 @@ import authRouter from "./routes/auth.route.js";
 import userRouter from "./routes/user.route.js";
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3005;
 connectDB();
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
+    origin: ["http://localhost:5176"],
     credentials: true,
   })
 );
