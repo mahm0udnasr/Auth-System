@@ -65,7 +65,7 @@ EMAIL_PASS=your_email_password
 
 Create `.env` file in client directory with:
 ```
-VITE_API_URL=http://localhost:5000
+VITE_API_URL=http://localhost:3005
 ```
 
 ## Running the Application
@@ -102,11 +102,10 @@ server/
 client/
 ├── public/         # Static files
 ├── src/
+│   ├── assets/     # Assets files
 │   ├── components/ # React components
 │   ├── pages/      # Page components
 │   ├── context/    # React context
-│   ├── hooks/      # Custom hooks
-│   ├── utils/      # Utility functions
 │   └── App.jsx     # Main component
 └── index.html
 ```
