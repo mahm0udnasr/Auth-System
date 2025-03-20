@@ -25,7 +25,7 @@ export const AppContextProvider = ({ children }) => {
         getUserData();
       }
     } catch (error) {
-      toast.error(error.message || error);
+      throw new Error(error.message || error);
     }
   };
   useEffect(() => {
